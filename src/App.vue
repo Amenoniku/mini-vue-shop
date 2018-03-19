@@ -4,21 +4,21 @@
   //- Navigation
   nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.fixed-top
     .container
-      router-link.navbar-brand(to='/home') Mini Vue Shop
-      button.btn.btn-dark(type='button')
-        router-link(to='/cart') &#128722;
+      router-link.navbar-brand(to="/home") Mini Vue Shop
+      button.btn.btn-dark(type="button")
+        router-link.navbar-brand(to="/cart") &#128722; {{ numberOfGoods }}
   //- Navigation End
 
   //- vue router tag
   router-view
-  //- vue router tag
+  //- vue router tag End
 
 </template>
 
 <script>
 import 'bootstrap/dist/css/bootstrap.css'
 
-import { mapActions } from 'vuex'
+import {mapState, mapActions} from 'vuex'
 
 export default {
   name: 'App',
@@ -26,10 +26,21 @@ export default {
   data () {
     return {}
   },
+  computed: {
+    ...mapState('main', {
+      cart: state => state.cart
+    }),
+    numberOfGoods () {
+      return this.$store.getters['main/numberOfGoods']
+    }
+  },
   methods: {
-    ...mapActions('main', {})
+    ...mapActions('main', {
+      getGoods: 'getGoods'
+    })
   },
   mounted () {
+    this.getGoods()
   }
 }
 </script>
@@ -40,11 +51,7 @@ export default {
   box-sizing border-box
 
 body
-  padding-top 54px
-
-@media (min-width 992px)
-  body
-    padding-top 56px
+  padding-top 75px
 
 #app
   font-family 'Avenir', Helvetica, Arial, sans-serif

@@ -1,19 +1,15 @@
 <template lang="pug">
 
-#ProductCard
-  .row
-    .col-lg-12
-      .row
-        .col-lg-4.col-md-6.mb-4
-          .card.h-100
-            a(href='#')
-              img.card-img-top(src='http://placehold.it/700x400', alt='')
-            .card-body
-              h4.card-title
-                a(href='#') Item One
-              h5 $24.99
-              p.card-text
-                | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!
+#ProductCard.col-sm
+  .card(style="width: 18rem;")
+    img.card-img-top(:src="product.image", alt="")
+    .card-body
+      h5.card-title {{ product.name }}
+      p.card-text {{ product.price }}
+      input.form-control.input-number(type="number" v-model="productCount" min="1", max="100")
+      button.btn.btn-primary(
+        @click="addProduct({count: productCount, product})"
+      ) In cart
 
 </template>
 
@@ -22,9 +18,12 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'ProductCard',
+  props: ['product'],
   components: {},
   data () {
-    return {}
+    return {
+      productCount: 1
+    }
   },
   computed: {
     ...mapState('main', {
@@ -32,13 +31,24 @@ export default {
     })
   },
   methods: {
-    ...mapActions('main', {})
+    ...mapActions('main', {
+      addProduct: 'addProduct'
+    })
   },
   mounted () {
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scope>
+
+.card
+  margin-bottom 5px
+
+.card-img-top
+  height 200px
+
+input
+  margin-bottom 10px
 
 </style>

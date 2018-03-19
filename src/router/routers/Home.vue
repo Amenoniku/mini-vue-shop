@@ -2,21 +2,39 @@
 
 #Home
   .container
+    .row
+      ProductCard(
+        v-for="product in goods"
+        :key="product.id"
+        :product="product"
+      )
+
+//- .container
+//-   .row
+    ProductCard(
+      v-for="product in goods"
+      :key="product.id"
+      :product="product"
+    )
 
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
 
+import ProductCard from '../../components/ProductCard'
+
 export default {
   name: 'Home',
-  components: {},
+  components: {
+    ProductCard
+  },
   data () {
     return {}
   },
   computed: {
     ...mapState('main', {
-      tiles: state => state.tiles
+      goods: state => state.goods
     })
   },
   methods: {
