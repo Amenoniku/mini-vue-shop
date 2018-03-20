@@ -6,6 +6,7 @@ const GET_GOODS = 'mini-vue-shop_GET_GOODS'
 // Cart consts
 const ADD_PRODUCT = 'mini-vue-shop_ADD_PRODUCT'
 const INCREASE_PRODUCTS = 'mini-vue-shop_INCREASE_PRODUCTS'
+
 const REMOVE_PRODUCT = 'mini-vue-shop_REMOVE_PRODUCT'
 
 export default {
@@ -26,11 +27,11 @@ export default {
     },
     [INCREASE_PRODUCTS] (state, {index, count}) {
       let product = state.cart[index]
-      product.count += +count
+      product.count = +product.count + +count
       state.cart.splice(index, 1, product)
     },
-    [REMOVE_PRODUCT] (state, product) {
-      state.cart = product
+    [REMOVE_PRODUCT] (state, index) {
+      state.cart.splice(index, 1)
     }
   },
   getters: {
@@ -60,8 +61,11 @@ export default {
         commit(ADD_PRODUCT, product)
       }
     },
-    removeProduct ({commit}, product) {
-      commit(REMOVE_PRODUCT, product)
+    removeProduct ({commit, state}, product) {
+      let productIndex = state.cart.findIndex(item => {
+        return item.id === product.id
+      })
+      commit(REMOVE_PRODUCT, productIndex)
     }
   }
 }

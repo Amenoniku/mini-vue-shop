@@ -1,28 +1,44 @@
 <template lang="pug">
 
 #Cart
-  P cart page
+  .container
+    h1.my-4 Shop Name
+    h3.my-3 Total price: {{ totalPrice }}
+    .row
+      ProductCard(
+        v-for="(product, $index) in cart"
+        :key="$index"
+        :product="product"
+      )
 
 </template>
 
 <script>
 import { mapState } from 'vuex'
 
+import ProductCard from '../../components/ProductCard'
+
 export default {
   name: 'Cart',
+  components: {
+    ProductCard
+  },
   data () {
-    return {
-      imgUrl: 'https://loremflickr.com/' + 250 + '/' + 200
-    }
+    return {}
   },
   computed: {
-    tile () {
-      return this.tiles.find((item) => {
-        return +item.id === +this.$route.params.id
+    totalPrice () {
+      let carrency = this.cart[0].price.charAt(0)
+      let prises = this.cart.map(item => {
+        let price = +item.price.slice(1) * +item.count
+        return price
       })
+      return carrency + prises.reduce((a, b) => {
+        return a + b
+      }).toFixed(2)
     },
     ...mapState('main', {
-      tiles: state => state.tiles
+      cart: state => state.cart
     })
   },
   methods: {}

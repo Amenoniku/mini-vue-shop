@@ -6,10 +6,26 @@
     .card-body
       h5.card-title {{ product.name }}
       p.card-text {{ product.price }}
-      input.form-control.input-number(type="number" v-model="productCount" min="1", max="100")
-      button.btn.btn-primary(
-        @click="addProduct({count: productCount, product})"
-      ) In cart
+
+      div(v-if="isCart")
+        input.form-control.input-number(
+          type="number"
+          v-model="product.count"
+          min="1"
+        )
+        button.btn.btn-primary(
+          @click="removeProduct(product.id)"
+        ) remove product
+
+      div(v-else)
+        input.form-control.input-number.cart(
+          type="number"
+          v-model="productCount"
+          min="1"
+        )
+        button.btn.btn-primary(
+          @click="addProduct({count: productCount, product})"
+        ) In cart
 
 </template>
 
@@ -26,13 +42,18 @@ export default {
     }
   },
   computed: {
+    isCart () {
+      return this.$route.name === 'Cart'
+    },
     ...mapState('main', {
       tiles: state => state.tiles
     })
   },
   methods: {
     ...mapActions('main', {
-      addProduct: 'addProduct'
+      addProduct: 'addProduct',
+      removeQuantity: 'removeQuantity',
+      removeProduct: 'removeProduct'
     })
   },
   mounted () {
@@ -50,5 +71,8 @@ export default {
 
 input
   margin-bottom 10px
+
+button
+  margin 5px
 
 </style>
