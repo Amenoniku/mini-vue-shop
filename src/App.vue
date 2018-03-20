@@ -16,9 +16,10 @@
 </template>
 
 <script>
+// бутстрап для красоты
 import 'bootstrap/dist/css/bootstrap.css'
 
-import {mapState, mapActions} from 'vuex'
+import {mapActions} from 'vuex'
 
 export default {
   name: 'App',
@@ -27,9 +28,7 @@ export default {
     return {}
   },
   computed: {
-    ...mapState('main', {
-      cart: state => state.cart
-    }),
+    // достаем из vuex кол-во товаров
     numberOfGoods () {
       return this.$store.getters['main/numberOfGoods']
     }
@@ -40,6 +39,7 @@ export default {
     })
   },
   mounted () {
+    // инициируем загрузку списока товаров
     this.getGoods()
   }
 }

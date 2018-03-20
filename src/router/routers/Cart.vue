@@ -3,13 +3,14 @@
 #Cart
   .container
     h1.my-4 Shop Name
-    h3.my-3 Total price: {{ totalPrice }}
-    .row
-      ProductCard(
-        v-for="(product, $index) in cart"
-        :key="$index"
-        :product="product"
-      )
+    div(v-if="cart.length > 0")
+      h3.my-3 Total price: {{ totalPrice }}
+      .row
+        ProductCard(
+          v-for="(product, $index) in cart"
+          :key="$index"
+          :product="product"
+        )
 
 </template>
 

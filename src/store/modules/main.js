@@ -61,9 +61,9 @@ export default {
         commit(ADD_PRODUCT, product)
       }
     },
-    removeProduct ({commit, state}, product) {
+    removeProduct ({commit, state}, productId) {
       let productIndex = state.cart.findIndex(item => {
-        return item.id === product.id
+        return item.id === productId
       })
       commit(REMOVE_PRODUCT, productIndex)
     }
